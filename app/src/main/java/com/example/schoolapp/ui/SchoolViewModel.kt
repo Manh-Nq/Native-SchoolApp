@@ -1,11 +1,14 @@
 package com.example.schoolapp.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.schoolapp.database.SchoolDataBase
 import com.example.schoolapp.database.model.ClassEntity
+import com.example.schoolapp.database.model.StudentEntity
 import com.example.schoolapp.database.model.TeacherClassEntity
 import com.example.schoolapp.database.model.TeacherEntity
 import com.example.schoolapp.database.model.TeacherWithClasses
@@ -29,10 +32,13 @@ class SchoolViewModel(private val db: SchoolDataBase) : ViewModel() {
     }
     val teachersWithClasses = repository.teachersWithClasses
     val classesWithTeachers = repository.classesWithTeachers
+    val studentData = repository.getAllStudent()
 
     fun addSampleData() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addClass(ClassEntity(1, "Math 101", "MATH101", "2024-01-01", "2024-06-01"))
+            repository.addClass(ClassEntity(3, "Math 103", "MATH103", "2024-01-01", "2024-06-01"))
+            repository.addClass(ClassEntity(4, "Math 104", "MATH104", "2024-01-01", "2024-06-01"))
             repository.addClass(
                 ClassEntity(
                     2,
@@ -55,7 +61,7 @@ class SchoolViewModel(private val db: SchoolDataBase) : ViewModel() {
                     "alice@example.com",
                     "2015-09-01",
                     "Mathematics",
-                    null
+                    1
                 )
             )
             repository.addTeacher(
@@ -70,12 +76,22 @@ class SchoolViewModel(private val db: SchoolDataBase) : ViewModel() {
                     "bob@example.com",
                     "2010-09-01",
                     "Physics",
-                    null
+                    2
                 )
             )
 
-            repository.addTeacherClass(TeacherClassEntity(1, 1)) // Alice teaches Math 101
-            repository.addTeacherClass(TeacherClassEntity(2, 2)) // Bob teaches Physics 101
+            repository.addTeacherClass(TeacherClassEntity(1, 1))
+            repository.addTeacherClass(TeacherClassEntity(1, 4))
+            repository.addTeacherClass(TeacherClassEntity(2, 4))
+
+            repository.addTeacherClass(TeacherClassEntity(2, 2))
+            repository.addTeacherClass(TeacherClassEntity(2, 3))
+        }
+    }
+
+    fun addClass(classEntity: ClassEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addClass(classEntity)
         }
     }
 
@@ -111,6 +127,32 @@ class SchoolViewModel(private val db: SchoolDataBase) : ViewModel() {
             teacherWithClasses.observeForever {
                 callback(it)
             }
+        }
+    }
+
+    fun addTeacher(teacher: TeacherEntity) {
+        viewModelScope.launch {
+            repository.addTeacher(teacher)
+        }
+    }
+
+    fun addStudent(student: StudentEntity) {
+        viewModelScope.launch {
+            repository.addStudent(student)
+        }
+    }
+
+    suspend fun getStudentById(studentId: Int): StudentEntity? {
+        return repository.getStudentById(studentId)
+    }
+
+    fun getAllStudents(): LiveData<List<StudentEntity>> {
+        return repository.getAllStudent()
+    }
+
+    fun assignTeacherToClass(teacherId: Int, classId: Int) {
+        viewModelScope.launch {
+            repository.assignTeacherToClass(teacherId, classId)
         }
     }
 }

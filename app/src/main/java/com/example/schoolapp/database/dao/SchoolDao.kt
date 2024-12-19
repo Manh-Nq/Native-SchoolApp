@@ -51,6 +51,10 @@ interface SchoolDao {
     suspend fun deleteTeacherClass(teacherClassEntity: TeacherClassEntity)
 
     @Transaction
+    @Query("SELECT * FROM StudentEntity")
+    fun getAllStudents(): LiveData<List<StudentEntity>>
+
+    @Transaction
     @Query("SELECT * FROM TeacherEntity")
     fun getTeachersWithClasses(): LiveData<List<TeacherWithClasses>>
 

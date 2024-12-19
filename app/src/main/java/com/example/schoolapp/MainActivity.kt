@@ -39,19 +39,13 @@ class MainActivity : AppCompatActivity() {
         // Observe and print data
         viewModel.teachersWithClasses.observe(this) { teachersWithClasses ->
             teachersWithClasses.forEach {
-                Log.d("ManhNQ","Teacher: ${it.teacher.name}")
-                it.teachingClasses.forEach { teachingClass ->
-                    Log.d("ManhNQ","- Class: ${teachingClass.className}")
-                }
+                Log.d("ManhNQ", "Teacher: ${it.teacher.name}  managerClass: ${it.teacher.manageClassId}  -- classes: ${it.teachingClasses.map { it.classId }}")
             }
         }
 
         viewModel.classesWithTeachers.observe(this) { classesWithTeachers ->
             classesWithTeachers.forEach {
-                Log.d("ManhNQ","Class: ${it.singleClass.className}")
-                it.teachers.forEach { teacher ->
-                    Log.d("ManhNQ","- Teacher: ${teacher.name}")
-                }
+                Log.d("ManhNQ", "Class: ${it.singleClass.className}  classId: ${it.singleClass.classId}- teachers: ${it.teachers.map { it.teacherId }}")
             }
         }
     }
