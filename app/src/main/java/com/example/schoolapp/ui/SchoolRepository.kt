@@ -46,4 +46,8 @@ class SchoolRepository(private val dao: SchoolDao) {
         dao.getClassWithTeachersById(classId)
 
     fun getAllStudent(): LiveData<List<StudentEntity>> = dao.getAllStudents()
+
+    fun getStudentsByClassId(classId: Int): LiveData<List<StudentEntity>> {
+        return dao.getStudentsByClassId(classId)
+    }
 }

@@ -54,6 +54,9 @@ interface SchoolDao {
     @Query("SELECT * FROM StudentEntity")
     fun getAllStudents(): LiveData<List<StudentEntity>>
 
+    @Query("SELECT * FROM StudentEntity WHERE classId = :classId")
+    fun getStudentsByClassId(classId: Int): LiveData<List<StudentEntity>>
+
     @Transaction
     @Query("SELECT * FROM TeacherEntity")
     fun getTeachersWithClasses(): LiveData<List<TeacherWithClasses>>
