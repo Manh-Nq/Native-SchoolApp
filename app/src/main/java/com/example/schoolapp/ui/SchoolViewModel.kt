@@ -39,6 +39,8 @@ class SchoolViewModel(private val db: SchoolDataBase) : ViewModel() {
             repository.addClass(ClassEntity(1, "Math 101", "MATH101", "2024-01-01", "2024-06-01"))
             repository.addClass(ClassEntity(3, "Math 103", "MATH103", "2024-01-01", "2024-06-01"))
             repository.addClass(ClassEntity(4, "Math 104", "MATH104", "2024-01-01", "2024-06-01"))
+            repository.addClass(ClassEntity(5 ,"Math 105", "MATH105", "2024-01-01", "2024-06-01"))
+            repository.addClass(ClassEntity(6, "Math 106", "MATH106", "2024-01-01", "2024-06-01"))
             repository.addClass(
                 ClassEntity(
                     2,
@@ -80,12 +82,34 @@ class SchoolViewModel(private val db: SchoolDataBase) : ViewModel() {
                 )
             )
 
+            repository.addTeacher(
+                TeacherEntity(
+                    3,
+                    "Lisa",
+                    27,
+                    "1984-01-01",
+                    "456 Street",
+                    "Male",
+                    "9876543210",
+                    "lisa@example.com",
+                    "2010-09-01",
+                    "Music",
+                    3
+                )
+            )
+
             repository.addTeacherClass(TeacherClassEntity(1, 1))
             repository.addTeacherClass(TeacherClassEntity(1, 4))
-            repository.addTeacherClass(TeacherClassEntity(2, 4))
 
+            repository.addTeacherClass(TeacherClassEntity(2, 4))
             repository.addTeacherClass(TeacherClassEntity(2, 2))
             repository.addTeacherClass(TeacherClassEntity(2, 3))
+            repository.addTeacherClass(TeacherClassEntity(2, 5))
+
+            repository.addTeacherClass(TeacherClassEntity(3, 1))
+            repository.addTeacherClass(TeacherClassEntity(3, 2))
+            repository.addTeacherClass(TeacherClassEntity(3, 4))
+            repository.addTeacherClass(TeacherClassEntity(3, 6))
         }
     }
 
